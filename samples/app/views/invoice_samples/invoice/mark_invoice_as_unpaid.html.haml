@@ -1,0 +1,11 @@
+= api_form_for @mark_invoice_as_unpaid, :url => invoice_path(:mark_invoice_as_unpaid) do |f|
+  .row
+    .span5
+      %legend Mark invoice as unpaid request
+      = f.input :invoiceID
+
+  .form-actions
+    = f.submit "Submit", :class => "btn btn-primary", :data => { :disable_with => "Processing.." }
+
+- if @mark_invoice_as_unpaid_response
+  = render 'api_response', :request => @mark_invoice_as_unpaid, :response => @mark_invoice_as_unpaid_response

@@ -1,0 +1,25 @@
+en:
+  invoice:
+    create_invoice: &create_invoice
+      invoice:
+        merchantEmail: jb-us-seller@paypal.com
+        payerEmail: sender@yahoo.com
+        currencyCode: USD
+        paymentTerms: DueOnReceipt
+        itemList:
+          item:
+          - name: item1
+            unitPrice: 5.00
+            quantity: 2
+    create_and_send_invoice:
+      <<: *create_invoice
+    update_invoice:
+      <<: *create_invoice
+    search_invoices:
+      merchantEmail: jb-us-seller@paypal.com
+      page: 1
+      pageSize: 10
+    mark_invoice_as_paid:
+      payment:
+        method: BankTransfer
+        date: "2011-12-20T02:56:08"

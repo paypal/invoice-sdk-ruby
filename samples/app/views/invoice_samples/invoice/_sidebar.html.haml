@@ -1,0 +1,12 @@
+.well.well-mini
+  %ul.nav.nav-list.bs-docs-sidenav
+    = active_li "Create",           invoice_path(:create_invoice)
+    = active_li "Send",             invoice_path(:send_invoice)
+    = active_li "Create & Send",    invoice_path(:create_and_send_invoice)
+    = active_li "Update",           invoice_path(:update_invoice)
+    = active_li "Get Details",      invoice_path(:get_invoice_details)
+    = active_li "Cancel",           invoice_path(:cancel_invoice)
+    = active_li "Search",           invoice_path(:search_invoices)
+    = active_li "Mark as Paid",     invoice_path(:mark_invoice_as_paid)
+    = active_li "Mark as UnPaid",   invoice_path(:mark_invoice_as_unpaid)
+    = active_li "Mark as Refunded", invoice_path(:mark_invoice_as_refunded)

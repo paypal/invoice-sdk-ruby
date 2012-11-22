@@ -1,0 +1,11 @@
+= api_form_for @get_invoice_details, :url => invoice_path(:get_invoice_details) do |f|
+  .row
+    .span5
+      %legend Get invoice details request
+      = f.input :invoiceID
+
+  .form-actions
+    = f.submit "Submit", :class => "btn btn-primary", :data => { :disable_with => "Processing.." }
+
+- if @get_invoice_details_response
+  = render 'api_response', :request => @get_invoice_details, :response => @get_invoice_details_response

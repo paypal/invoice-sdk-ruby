@@ -1,0 +1,11 @@
+= api_form_for @cancel_invoice, :url => invoice_path(:cancel_invoice) do |f|
+  .row
+    .span5
+      %legend Cancel invoice request
+      = f.input :invoiceID
+
+  .form-actions
+    = f.submit "Submit", :class => "btn btn-primary", :data => { :disable_with => "Processing.." }
+
+- if @cancel_invoice_response
+  = render 'api_response', :request => @cancel_invoice, :response => @cancel_invoice_response
