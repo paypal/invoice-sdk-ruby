@@ -152,7 +152,7 @@ Add following line in rails `Gemfile`:
 
 Configure routes(`config/routes.rb`):
 
-    mount AdaptivePaymentsSamples::Engine => "/samples" if Rails.env.development?
+    mount InvoiceSamples::Engine => "/samples" if Rails.env.development?
 
 To get default paypal configuration execute:
 
