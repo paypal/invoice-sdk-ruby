@@ -10,7 +10,7 @@ module PayPal
           super(SERVICE_NAME, environment, options)
         end
 
-        INVOICE_HTTP_HEADER = { "X-PAYPAL-REQUEST-SOURCE" => "invoice-ruby-#{VERSION}" }
+        INVOICE_HTTP_HEADER = { "X-PAYPAL-REQUEST-SOURCE" => "invoice-ruby-sdk-#{VERSION}" }
         def default_http_header
           super.merge(INVOICE_HTTP_HEADER)
         end
