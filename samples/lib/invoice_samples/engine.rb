@@ -26,6 +26,7 @@ module InvoiceSamples
           end
         end
         config.form_class  = "simple_form form-horizontal"
+        config.boolean_style = :nested
         config.label_class = "control-label"
         config.browser_validations = false
       end

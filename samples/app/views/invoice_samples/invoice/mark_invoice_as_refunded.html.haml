@@ -3,6 +3,9 @@
     .span5
       %legend Mark invoice as refunded request
       = f.input :invoiceID
+      = f.fields_for :refundDetail do |ref|
+        = ref.input :note
+        = ref.input :date
 
   .form-actions
     = f.submit "Submit", :class => "btn btn-primary", :data => { :disable_with => "Processing.." }

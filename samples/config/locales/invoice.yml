@@ -19,6 +19,9 @@ en:
       merchantEmail: jb-us-seller@paypal.com
       page: 1
       pageSize: 10
+    mark_invoice_as_refunded:
+      refundDetail:
+        date: "2011-12-20T02:56:08"
     mark_invoice_as_paid:
       payment:
         method: BankTransfer
