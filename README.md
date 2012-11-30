@@ -150,7 +150,7 @@ require 'paypal-sdk-invoice'
 Add following line in rails `Gemfile`:
 
     gem 'paypal-sdk-invoice'
-    gem 'invoice_samples', :git => "https://github.com/paypal/invoice-ruby.git", :group => :development
+    gem 'invoice_samples', :git => "https://github.com/paypal/invoice-sdk-ruby.git", :group => :development
 
 Configure routes(`config/routes.rb`):
 
