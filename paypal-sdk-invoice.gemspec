@@ -6,8 +6,8 @@ require 'paypal-sdk/invoice/version'
 Gem::Specification.new do |gem|
   gem.name          = "paypal-sdk-invoice"
   gem.version       = PayPal::SDK::Invoice::VERSION
-  gem.authors       = ["siddick"]
-  gem.email         = ["mebramsha@paypal.com"]
+  gem.authors       = ["PayPal"]
+  gem.email         = ["DL-PP-Platform-Ruby-SDK@paypal.com"]
   gem.description   = %q{Invoice SDK}
   gem.summary       = %q{Invoice SDK}
   gem.homepage      = "https://www.x.com/"

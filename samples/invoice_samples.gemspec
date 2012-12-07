@@ -7,8 +7,8 @@ require "invoice_samples/version"
 Gem::Specification.new do |s|
   s.name        = "invoice_samples"
   s.version     = InvoiceSamples::VERSION
-  s.authors     = ["siddick"]
-  s.email       = ["mebramsha@paypal.com"]
+  s.authors     = ["PayPal"]
+  s.email       = ["DL-PP-Platform-Ruby-SDK@paypal.com"]
   s.homepage    = "https://www.x.com/"
   s.summary     = "Samples for Invoice."
   s.description = "Samples for Invoice."
