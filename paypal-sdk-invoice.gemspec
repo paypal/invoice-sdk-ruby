@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.name          = "paypal-sdk-invoice"
   gem.version       = PayPal::SDK::Invoice::VERSION
   gem.authors       = ["PayPal"]
-  gem.email         = ["DL-PP-Platform-Ruby-SDK@paypal.com"]
+  gem.email         = ["DL-PP-Platform-Ruby-SDK@ebay.com"]
   gem.description   = %q{Invoice SDK}
   gem.summary       = %q{Invoice SDK}
   gem.homepage      = "https://www.x.com/"
