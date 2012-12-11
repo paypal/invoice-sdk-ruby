@@ -1,4 +1,4 @@
-# Invoice[ Work in progress !! ]
+# Invoice
 
 SDK for Invoice.
 
