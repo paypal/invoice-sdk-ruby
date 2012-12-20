@@ -1,6 +1,6 @@
-# Invoice
+# Invoice SDK
 
-SDK for Invoice.
+The PayPal Invoice SDK provides Ruby APIs to create and manage Invoices using the PayPal's Invoicing Service API.
 
 ## Installation
 
