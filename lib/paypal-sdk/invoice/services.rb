@@ -1,5 +1,4 @@
 require 'paypal-sdk-core'
-require 'paypal-sdk/invoice/data_types'
 
 # AUTO GENERATED code for Invoice
 module PayPal::SDK
