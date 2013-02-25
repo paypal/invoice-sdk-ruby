@@ -122,20 +122,28 @@ To get response status:
 
 ```ruby
 require 'paypal-sdk-invoice'
-@api = PayPal::SDK::Invoice::API.new
+@api = PayPal::SDK::Invoice::API.new(
+  :mode      => "sandbox",  # Set "live" for production
+  :app_id    => "APP-80W284485P519543T",
+  :username  => "jb-us-seller_api1.paypal.com",
+  :password  => "WX4WTU3S8MY44S7F",
+  :signature => "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy" )
 
 # Build request object
-@create_invoice_request = @api.build_create_invoice()
-@create_invoice_request.invoice.merchantEmail = "jb-us-seller@paypal.com"
-@create_invoice_request.invoice.payerEmail    = "sender@yahoo.com"
-@create_invoice_request.invoice.itemList.item[0].name      = "item1"
-@create_invoice_request.invoice.itemList.item[0].quantity  = 2.0
-@create_invoice_request.invoice.itemList.item[0].unitPrice = 5.0
-@create_invoice_request.invoice.currencyCode  = "USD"
-@create_invoice_request.invoice.paymentTerms  = "DueOnReceipt"
+@create_invoice = @api.build_create_invoice({
+  :invoice => {
+    :merchantEmail => "jb-us-seller@paypal.com",
+    :payerEmail => "sender@yahoo.com",
+    :itemList => {
+      :item => [{
+        :name => "item1",
+        :quantity => 2.0,
+        :unitPrice => 5.0 }] },
+    :currencyCode => "USD",
+    :paymentTerms => "DueOnReceipt" } })
 
 # Make API call & get response
-@create_invoice_response = @api.create_invoice(@create_invoice_request)
+@create_invoice_response = @api.create_invoice(@create_invoice)
 
 # Access Response
 @create_invoice_response.responseEnvelope
