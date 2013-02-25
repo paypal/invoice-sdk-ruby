@@ -4,3 +4,7 @@ rvm:
 notifications:
   recipients:
     - DL-PP-Platform-Ruby-SDK@ebay.com
+before_install:
+  - "export SELENIUM=1"
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
