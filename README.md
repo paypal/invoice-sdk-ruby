@@ -6,8 +6,8 @@ The PayPal Invoice SDK provides Ruby APIs to create and manage Invoices using th
 
 Add this line to your application's Gemfile:
 
-```bash
-$ gem 'paypal-sdk-invoice'
+```ruby
+gem 'paypal-sdk-invoice'
 ```
 
 And then execute:
@@ -184,15 +184,15 @@ require 'paypal-sdk-invoice'
 
 Add following line in rails `Gemfile`:
 
-```bash
-$ gem 'paypal-sdk-invoice'
-$ gem 'invoice_samples', :git => "https://github.com/paypal/invoice-sdk-ruby.git", :group => :development
+```ruby
+gem 'paypal-sdk-invoice'
+gem 'invoice_samples', :git => "https://github.com/paypal/invoice-sdk-ruby.git", :group => :development
 ```
 
 Configure routes(`config/routes.rb`):
 
-```bash
-$ mount InvoiceSamples::Engine => "/samples" if Rails.env.development?
+```ruby
+mount InvoiceSamples::Engine => "/samples" if Rails.env.development?
 ```
 
 To get default paypal configuration execute:
