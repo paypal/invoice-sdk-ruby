@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["DL-PP-Platform-Ruby-SDK@ebay.com"]
   gem.summary       = %q{PayPal Invoice SDK}
   gem.description   = %q{The PayPal Invoice SDK provides Ruby APIs to create and manage Invoices using the PayPal's Invoicing Service API.}
-  gem.homepage      = "https://www.x.com/"
+  gem.homepage      = "https://developer.paypal.com"
 
   gem.files         = Dir["{bin,spec,lib}/**/*"] + ["Rakefile", "README.md", "Gemfile"]
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
