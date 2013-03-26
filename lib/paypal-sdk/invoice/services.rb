@@ -5,7 +5,7 @@ module PayPal::SDK
   module Invoice
 
 	  # Service Version
-	  SERVICE_VERSION = "1.6.0"
+	  SERVICE_VERSION = "1.8.0"
 	  # Service Name
 	  SERVICE_NAME = "Invoice"
 
@@ -202,6 +202,25 @@ module PayPal::SDK
         object
       end
       alias_method :build_mark_invoice_as_refunded, :BuildMarkInvoiceAsRefunded
+
+      # Service Call: DeleteInvoice
+      # @param DeleteInvoiceRequest
+      # @return DeleteInvoiceResponse
+      def DeleteInvoice(options = {} , http_header = {})
+        request_object  = BuildDeleteInvoice(options)
+        request_hash    = request_object.to_hash
+        response_hash   = request("DeleteInvoice", request_hash, http_header)
+        DeleteInvoiceResponse.new(response_hash)
+      end
+      alias_method :delete_invoice, :DeleteInvoice
+
+      def BuildDeleteInvoice(options = {}, &block)
+        klass     = DeleteInvoiceRequest
+        object = options.is_a?(klass) ? options : klass.new(options || {})
+        object.instance_eval(&block) if block
+        object
+      end
+      alias_method :build_delete_invoice, :BuildDeleteInvoice
 
 
     end
