@@ -72,7 +72,7 @@ module PayPal::SDK
           # This specifies the required detail level that is needed by a client application pertaining to a particular data component (e.g., Item, Transaction, etc.). The detail level is specified in the DetailLevelCodeType which has all the enumerated values of the detail level for each component. 
           object_of :detailLevel, DetailLevelCode
           # This should be the standard RFC 3066 language identification tag, e.g., en_US. 
-          object_of :errorLanguage, String, :required => true
+          object_of :errorLanguage, String
         end
       end
 
@@ -238,6 +238,8 @@ module PayPal::SDK
           object_of :note, String
           # Memo for book keeping that is private to the Merchant. 
           object_of :merchantMemo, String
+          # Details of the receipt. Applicable only when invoice is a receipt. 
+          object_of :receiptDetails, String
           # Billing information for the payer. 
           object_of :billingInfo, BusinessInfoType
           # Shipping information for the payer. 
@@ -767,6 +769,27 @@ module PayPal::SDK
           object_of :paypalPayment, PayPalPaymentRefundDetailsType
           # details.  
           object_of :otherPayment, OtherPaymentRefundDetailsType
+        end
+      end
+
+
+
+      # The request object for DeleteInvoice. 
+      class DeleteInvoiceRequest < DataType
+        def self.load_members
+          object_of :requestEnvelope, RequestEnvelope, :required => true
+          # ID of the invoice to be deleted. 
+          object_of :invoiceID, String, :required => true
+        end
+      end
+
+
+
+      # The response object for DeleteInvoice. 
+      class DeleteInvoiceResponse < DataType
+        def self.load_members
+          object_of :responseEnvelope, ResponseEnvelope, :required => true
+          array_of :error, ErrorData
         end
       end
 
