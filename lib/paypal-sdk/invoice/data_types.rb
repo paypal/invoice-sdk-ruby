@@ -14,6 +14,22 @@ module PayPal::SDK
         end
       end
 
+      module ResponseStatus
+        Status = { :success => ["Success", "SuccessWithWarning"],
+                   :warning => ["Warning", "SuccessWithWarning", "FailureWithWarning"],
+                   :failure => ["Failure", "FailureWithWarning"] }
+
+        def response_status
+          self.responseEnvelope && self.responseEnvelope.ack
+        end
+
+        Status.keys.each do |status|
+          define_method("#{status}?") do
+            Status[status].include?(self.response_status)
+          end
+        end
+      end
+
       class EnumType < Core::API::DataTypes::Enum
       end
 
@@ -59,6 +75,7 @@ module PayPal::SDK
       # This specifies a fault, encapsulating error data, with specific error codes. 
       class FaultMessage < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           array_of :error, ErrorData
         end
@@ -474,6 +491,7 @@ module PayPal::SDK
       # The response object for CreateInvoice. 
       class CreateInvoiceResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The created invoice's ID. 
           object_of :invoiceID, String, :required => true
@@ -503,6 +521,7 @@ module PayPal::SDK
       # The response object for SendInvoice. 
       class SendInvoiceResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The sent invoice's ID. 
           object_of :invoiceID, String, :required => true
@@ -528,6 +547,7 @@ module PayPal::SDK
       # The response object for CreateAndSendInvoice. 
       class CreateAndSendInvoiceResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The created invoice's ID. 
           object_of :invoiceID, String, :required => true
@@ -559,6 +579,7 @@ module PayPal::SDK
       # The response object for UpdateInvoice. 
       class UpdateInvoiceResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The invoice's ID. 
           object_of :invoiceID, String, :required => true
@@ -588,6 +609,7 @@ module PayPal::SDK
       # The response object for CreateInvoice. 
       class GetInvoiceDetailsResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The requested invoice. 
           object_of :invoice, InvoiceType, :required => true
@@ -625,6 +647,7 @@ module PayPal::SDK
       # The response object for CancelInvoice. 
       class CancelInvoiceResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The canceled invoice's ID. 
           object_of :invoiceID, String, :required => true
@@ -658,6 +681,7 @@ module PayPal::SDK
       # The response object for SearchInvoices. 
       class SearchInvoicesResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # Number of invoices that matched the search. 
           object_of :count, Integer, :required => true
@@ -691,6 +715,7 @@ module PayPal::SDK
       # The response object for MarkInvoiceAsPaid. 
       class MarkInvoiceAsPaidResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The paid invoice ID. 
           object_of :invoiceID, String, :required => true
@@ -720,6 +745,7 @@ module PayPal::SDK
       # The response object for MarkInvoiceAsRefunded. 
       class MarkInvoiceAsRefundedResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The invoice ID of the invoice that was marked as refunded. 
           object_of :invoiceID, String, :required => true
@@ -747,6 +773,7 @@ module PayPal::SDK
       # The response object for MarkInvoiceAsUnpaid. 
       class MarkInvoiceAsUnpaidResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           # The invoice ID of the invoice that was marked as unpaid. 
           object_of :invoiceID, String, :required => true
@@ -788,6 +815,7 @@ module PayPal::SDK
       # The response object for DeleteInvoice. 
       class DeleteInvoiceResponse < DataType
         def self.load_members
+          include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
           array_of :error, ErrorData
         end
