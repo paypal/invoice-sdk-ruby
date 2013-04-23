@@ -237,6 +237,8 @@ module PayPal::SDK
           object_of :merchantInfo, BusinessInfoType
           # List of items included in this invoice. 
           object_of :itemList, InvoiceItemListType, :required => true
+          # If True, indicates tax calculated after discount. Default is False.
+          object_of :taxCalculatedAfterDiscount, Boolean
           # Currency used for all invoice item amounts and totals. 
           object_of :currencyCode, String, :required => true
           # Date on which the invoice will be enabled. 
