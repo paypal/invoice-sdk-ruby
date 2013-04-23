@@ -55,7 +55,7 @@ production:
   <<: *default
   mode: live
 ```
-  
+
 Load Configurations from specified file:
 
 ```ruby
@@ -95,7 +95,7 @@ if @create_invoice_response.success?
   @create_invoice_response.invoiceNumber
   @create_invoice_response.invoiceURL
 else
-  print @create_invoice_response.error[0].message
+  @create_invoice_response.error
 end
 ```
 
