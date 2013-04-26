@@ -55,7 +55,7 @@ production:
   <<: *default
   mode: live
 ```
-  
+
 Load Configurations from specified file:
 
 ```ruby
@@ -90,11 +90,13 @@ require 'paypal-sdk-invoice'
 @create_invoice_response = @api.create_invoice(@create_invoice)
 
 # Access Response
-@create_invoice_response.responseEnvelope
-@create_invoice_response.invoiceID
-@create_invoice_response.invoiceNumber
-@create_invoice_response.invoiceURL
-@create_invoice_response.totalAmount
+if @create_invoice_response.success?
+  @create_invoice_response.invoiceID
+  @create_invoice_response.invoiceNumber
+  @create_invoice_response.invoiceURL
+else
+  @create_invoice_response.error
+end
 ```
 
 For more samples [paypal-sdk-samples.herokuapp.com/invoice/](https://paypal-sdk-samples.herokuapp.com/invoice/)
