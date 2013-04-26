@@ -15,13 +15,4 @@ describe "Invoice" do
     end
   end
 
-  describe "DataTypes" do
-    PayPal::SDK::Invoice::DataTypes.constants.each do |const_name|
-      it "create object for #{const_name}" do
-        klass = PayPal::SDK::Invoice::DataTypes.const_get(const_name)
-        klass.new.should be_a klass
-      end
-    end
-  end
-
 end
