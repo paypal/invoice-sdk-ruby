@@ -5,7 +5,7 @@ module PayPal::SDK
   module Invoice
 
 	  # Service Version
-	  SERVICE_VERSION = "1.8.0"
+	  SERVICE_VERSION = "1.9.0"
 	  # Service Name
 	  SERVICE_NAME = "Invoice"
 
