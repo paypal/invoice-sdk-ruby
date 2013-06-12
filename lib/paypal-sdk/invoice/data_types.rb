@@ -184,6 +184,8 @@ module PayPal::SDK
           object_of :fax, String
           # Website used by the company. 
           object_of :website, String
+          # Tax ID of the merchant. 
+          object_of :taxId, String
           # Custom value to be displayed in the contact information details. 
           object_of :customValue, String
           # Street address of the company. 
@@ -251,6 +253,8 @@ module PayPal::SDK
           object_of :discountPercent, Float
           # A discount amount applied to the invoice, if any. If DiscountPercent is provided, DiscountAmount is ignored. 
           object_of :discountAmount, Float
+          # If true, indicates tax included in item amount. If present, this setting will supersede the merchant’s default setting. 
+          object_of :taxInclusive, Boolean
           # General terms for the invoice. 
           object_of :terms, String
           # Note to the payer company. 
