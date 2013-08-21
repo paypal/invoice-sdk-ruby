@@ -136,7 +136,7 @@ module PayPal::SDK
 
       #  Specifies the payment terms for this invoice. 
       class PaymentTermsType < EnumType
-        self.options = { 'DUEONRECEIPT' => 'DueOnReceipt', 'DUEONDATESPECIFIED' => 'DueOnDateSpecified', 'NET1' => 'Net10', 'NET2' => 'Net15', 'NET3' => 'Net30', 'NET4' => 'Net45' }
+        self.options = { 'NODUEDATE' => 'NoDueDate', 'DUEONRECEIPT' => 'DueOnReceipt', 'DUEONDATESPECIFIED' => 'DueOnDateSpecified', 'NET1' => 'Net10', 'NET2' => 'Net15', 'NET3' => 'Net30', 'NET4' => 'Net45' }
       end
 
 
@@ -248,7 +248,7 @@ module PayPal::SDK
           # Date on which the invoice payment is due. 
           object_of :dueDate, DateTime
           # Terms by which the invoice payment is due. 
-          object_of :paymentTerms, PaymentTermsType, :required => true
+          object_of :paymentTerms, PaymentTermsType
           # A discount percent applied to the invoice, if any. 
           object_of :discountPercent, Float
           # A discount amount applied to the invoice, if any. If DiscountPercent is provided, DiscountAmount is ignored. 
@@ -526,6 +526,36 @@ module PayPal::SDK
 
       # The response object for SendInvoice. 
       class SendInvoiceResponse < DataType
+        def self.load_members
+          include ResponseStatus
+          object_of :responseEnvelope, ResponseEnvelope, :required => true
+          # The sent invoice's ID. 
+          object_of :invoiceID, String, :required => true
+          # The URL which lead merchant to view the invoice details on web. 
+          object_of :invoiceURL, String, :required => true
+          array_of :error, ErrorData
+        end
+      end
+
+
+
+      # The request object for RemindInvoice. 
+      class RemindInvoiceRequest < DataType
+        def self.load_members
+          object_of :requestEnvelope, RequestEnvelope, :required => true
+          # ID of the invoice to remind. 
+          object_of :invoiceID, String, :required => true
+          # Subject of the Reminder notification 
+          object_of :subject, String
+          # Note to send payer within the reminder notification 
+          object_of :noteForPayer, String
+        end
+      end
+
+
+
+      # The response object for RemindInvoice. 
+      class RemindInvoiceResponse < DataType
         def self.load_members
           include ResponseStatus
           object_of :responseEnvelope, ResponseEnvelope, :required => true
