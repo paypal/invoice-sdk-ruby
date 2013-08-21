@@ -5,7 +5,7 @@ module PayPal::SDK
   module Invoice
 
 	  # Service Version
-	  SERVICE_VERSION = "1.9.0"
+	  SERVICE_VERSION = "1.10.0"
 	  # Service Name
 	  SERVICE_NAME = "Invoice"
 
@@ -50,6 +50,25 @@ module PayPal::SDK
         object
       end
       alias_method :build_send_invoice, :BuildSendInvoice
+
+      # Service Call: RemindInvoice
+      # @param RemindInvoiceRequest
+      # @return RemindInvoiceResponse
+      def RemindInvoice(options = {} , http_header = {})
+        request_object  = BuildRemindInvoice(options)
+        request_hash    = request_object.to_hash
+        response_hash   = request("RemindInvoice", request_hash, http_header)
+        RemindInvoiceResponse.new(response_hash)
+      end
+      alias_method :remind_invoice, :RemindInvoice
+
+      def BuildRemindInvoice(options = {}, &block)
+        klass     = RemindInvoiceRequest
+        object = options.is_a?(klass) ? options : klass.new(options || {})
+        object.instance_eval(&block) if block
+        object
+      end
+      alias_method :build_remind_invoice, :BuildRemindInvoice
 
       # Service Call: CreateAndSendInvoice
       # @param CreateAndSendInvoiceRequest
