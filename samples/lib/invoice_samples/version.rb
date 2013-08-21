@@ -1,3 +1,3 @@
 module InvoiceSamples
-  VERSION = "1.103.0"
+  VERSION = "1.106.0"
 end
