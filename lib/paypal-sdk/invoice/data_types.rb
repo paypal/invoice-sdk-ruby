@@ -148,9 +148,16 @@ module PayPal::SDK
 
 
 
+      #  Specifies the payment transaction type. 
+      class PaymentTransactionType < EnumType
+        self.options = { 'AUTHORIZATION' => 'Authorization', 'CAPTURE' => 'Capture', 'SALE' => 'Sale' }
+      end
+
+
+
       #  Specifies the invoice status. 
       class StatusType < EnumType
-        self.options = { 'DRAFT' => 'Draft', 'SENT' => 'Sent', 'PAID' => 'Paid', 'MARKEDASPAID' => 'MarkedAsPaid', 'CANCELED' => 'Canceled', 'REFUNDED' => 'Refunded', 'PARTIALLYREFUNDED' => 'PartiallyRefunded', 'MARKEDASREFUNDED' => 'MarkedAsRefunded' }
+        self.options = { 'DRAFT' => 'Draft', 'SENT' => 'Sent', 'PAID' => 'Paid', 'MARKEDASPAID' => 'MarkedAsPaid', 'CANCELED' => 'Canceled', 'REFUNDED' => 'Refunded', 'PARTIALLYREFUNDED' => 'PartiallyRefunded', 'MARKEDASREFUNDED' => 'MarkedAsRefunded', 'PAYMENTPENDING' => 'PaymentPending', 'PARTIALLYPAID' => 'PartiallyPaid' }
       end
 
 
@@ -184,6 +191,8 @@ module PayPal::SDK
           object_of :fax, String
           # Website used by the company. 
           object_of :website, String
+          # Language of the participant. 
+          object_of :language, String
           # Tax ID of the merchant. 
           object_of :taxId, String
           # Custom value to be displayed in the contact information details. 
@@ -208,10 +217,18 @@ module PayPal::SDK
           object_of :quantity, Float, :required => true
           # Price of the item, in the currency specified by the invoice. 
           object_of :unitPrice, Float, :required => true
+          # A discount percent applied to the item, if any. 
+          object_of :discountPercent, Float
+          # A discount amount applied to the item, if any. If DiscountPercent is provided, DiscountAmount is ignored. 
+          object_of :discountAmount, Float
           # Name of an applicable tax, if any. 
           object_of :taxName, String
           # Rate of an applicable tax, if any. 
           object_of :taxRate, Float
+          # The tax amount on the item, either included or on top of it. 
+          object_of :taxAmount, Float
+          # Image URL of the item, if any. 
+          object_of :imageUrl, String
         end
       end
 
@@ -251,8 +268,10 @@ module PayPal::SDK
           object_of :paymentTerms, PaymentTermsType
           # A discount percent applied to the invoice, if any. 
           object_of :discountPercent, Float
-          # A discount amount applied to the invoice, if any. If DiscountPercent is provided, DiscountAmount is ignored. 
+          # A Invoice level discount amount applied on the invoice, if any. If DiscountPercent is provided, DiscountAmount is ignored. 
           object_of :discountAmount, Float
+          # Total Items Discount applied to the invoice, if any. 
+          object_of :totalItemDiscountAmount, Float
           # If true, indicates tax included in item amount. If present, this setting will supersede the merchant’s default setting. 
           object_of :taxInclusive, Boolean
           # General terms for the invoice. 
@@ -273,6 +292,8 @@ module PayPal::SDK
           object_of :shippingTaxName, String
           # Rate of the applicable tax on shipping cost, if any. 
           object_of :shippingTaxRate, Float
+          # The tax on shipping amount, either included or on top of it. 
+          object_of :shippingTaxAmount, Float
           # The external image URL of the invoice's logo, if any 
           object_of :logoUrl, String
           # BN code for tracking transactions with a particular partner. 
@@ -281,6 +302,8 @@ module PayPal::SDK
           object_of :customAmountLabel, String
           # Value of custom amount. If a value is entered for customAmountValue, then customAmountLabel cannot be empty. 
           object_of :customAmountValue, Float
+          # False, if the payment cannot be paid using both external and PayPal payment. True, if the payment can be paid using both external and PayPal payment. 
+          object_of :allowPartialPayments, Boolean
         end
       end
 
@@ -291,6 +314,8 @@ module PayPal::SDK
         def self.load_members
           # Status of the invoice. 
           object_of :status, StatusType, :required => true
+          # The total discount amount on the invoice. This field is set by the invoicing system and will ignore any changes made by API callers. 
+          object_of :totalDiscountAmount, Float
           # The total amount of the invoice (cost of items, shipping and tax, less any discount). This field is set by the invoicing system and will ignore any changes made by API callers. 
           object_of :totalAmount, Float
           # Whether the invoice was created via the website or via an API call. 
@@ -317,6 +342,17 @@ module PayPal::SDK
           object_of :lastSentBy, String
           # If the invoice was paid, date when the invoice was paid. 
           object_of :paidDate, DateTime
+          # The adjustment amount of the invoice (total invoice amount less all payments). This field is set by the invoicing system and will ignore any changes made by API callers. 
+          object_of :adjustmentAmount, Float
+        end
+      end
+
+
+
+      # A list of paypal paymentss. 
+      class PayPalPaymentDetailsListType < DataType
+        def self.load_members
+          array_of :payment, PayPalPaymentDetailsType, :required => true
         end
       end
 
@@ -329,6 +365,17 @@ module PayPal::SDK
           object_of :note, String
           # Date when the invoice was marked as refunded. If the date is not specified, the current date and time is used as a default. In addition, the date must be after the payment date of the invoice. 
           object_of :date, DateTime
+          # Refunded amount. If empty then it is assumed to be a full refund. 
+          object_of :amount, Float
+        end
+      end
+
+
+
+      # A list of other paymentss. 
+      class OtherPaymentRefundDetailsListType < DataType
+        def self.load_members
+          array_of :payment, OtherPaymentRefundDetailsType, :required => true
         end
       end
 
@@ -337,8 +384,21 @@ module PayPal::SDK
       # Details of the paypal refund made against this invoice. 
       class PayPalPaymentRefundDetailsType < DataType
         def self.load_members
+          # Transaction ID of the PayPal refund. 
+          object_of :transactionID, String, :required => true
           # Date when the invoice was marked as refunded by PayPal. 
           object_of :date, DateTime
+          # Refund amount, if empty, it means a full refund. 
+          object_of :amount, Float
+        end
+      end
+
+
+
+      # A list of other paymentss. 
+      class PayPalPaymentRefundDetailsListType < DataType
+        def self.load_members
+          array_of :payment, PayPalPaymentRefundDetailsType, :required => true
         end
       end
 
@@ -351,6 +411,10 @@ module PayPal::SDK
           object_of :transactionID, String, :required => true
           # Date when the invoice was paid. 
           object_of :date, DateTime
+          # Payment amount. If empty, it means a full payment. 
+          object_of :amount, Float
+          # Payment Transaction Type. 
+          object_of :transactionType, PaymentTransactionType, :required => true
         end
       end
 
@@ -365,6 +429,17 @@ module PayPal::SDK
           object_of :note, String
           # Date when the invoice was paid. 
           object_of :date, DateTime
+          # Payment amount. If empty, it means a full payment. 
+          object_of :amount, Float
+        end
+      end
+
+
+
+      # A list of other paymentss. 
+      class OtherPaymentDetailsListType < DataType
+        def self.load_members
+          array_of :payment, OtherPaymentDetailsType, :required => true
         end
       end
 
@@ -377,8 +452,12 @@ module PayPal::SDK
           object_of :viaPayPal, Boolean, :required => true
           # PayPal payment details. 
           object_of :paypalPayment, PayPalPaymentDetailsType
+          # List of paypal payments. 
+          object_of :paypalPayments, PayPalPaymentDetailsListType
           # Other payment details. 
           object_of :otherPayment, OtherPaymentDetailsType
+          # Other payment details. 
+          object_of :otherPayments, OtherPaymentDetailsListType
         end
       end
 
@@ -505,6 +584,8 @@ module PayPal::SDK
           object_of :invoiceNumber, String, :required => true
           # The URL which lead merchant to view the invoice details on web. 
           object_of :invoiceURL, String, :required => true
+          # The URL which lead merchant to view the invoice as the payer would see it. 
+          object_of :payerViewURL, String, :required => true
           # The total amount of the invoice (cost of items, shipping and tax, less any discount). 
           object_of :totalAmount, Integer, :required => true
           array_of :error, ErrorData
@@ -533,6 +614,8 @@ module PayPal::SDK
           object_of :invoiceID, String, :required => true
           # The URL which lead merchant to view the invoice details on web. 
           object_of :invoiceURL, String, :required => true
+          # The URL which lead merchant to view the invoice as the payer would see it. 
+          object_of :payerViewURL, String, :required => true
           array_of :error, ErrorData
         end
       end
@@ -569,6 +652,28 @@ module PayPal::SDK
 
 
 
+      # The request object for GenerateInvoiceNumber. 
+      class GenerateInvoiceNumberRequest < DataType
+        def self.load_members
+          object_of :requestEnvelope, RequestEnvelope, :required => true
+        end
+      end
+
+
+
+      # The response object for GenerateInvoiceNumber. 
+      class GenerateInvoiceNumberResponse < DataType
+        def self.load_members
+          include ResponseStatus
+          object_of :responseEnvelope, ResponseEnvelope, :required => true
+          # Next Invoice NUmber for the Merchant. 
+          object_of :invoiceNumber, String, :required => true
+          array_of :error, ErrorData
+        end
+      end
+
+
+
       # The request object for CreateAndSendInvoice. 
       class CreateAndSendInvoiceRequest < DataType
         def self.load_members
@@ -591,6 +696,8 @@ module PayPal::SDK
           object_of :invoiceNumber, String, :required => true
           # The URL which lead merchant to view the invoice details on web. 
           object_of :invoiceURL, String, :required => true
+          # The URL which lead merchant to view the invoice as the payer would see it. 
+          object_of :payerViewURL, String, :required => true
           # The total amount of the invoice (cost of items, shipping and tax, less any discount). 
           object_of :totalAmount, Integer, :required => true
           array_of :error, ErrorData
@@ -636,7 +743,9 @@ module PayPal::SDK
         def self.load_members
           object_of :requestEnvelope, RequestEnvelope, :required => true
           # ID of the invoice to retrieve. 
-          object_of :invoiceID, String, :required => true
+          object_of :invoiceID, String
+          # Invoice number of the invoice to retrieve. 
+          object_of :invoiceNumber, String
         end
       end
 
@@ -657,6 +766,8 @@ module PayPal::SDK
           object_of :refundDetails, PaymentRefundDetailsType
           # The URL which lead merchant to view the invoice details on web. 
           object_of :invoiceURL, String, :required => true
+          # The URL which lead merchant to view the invoice as the payer would see it. 
+          object_of :payerViewURL, String, :required => true
           array_of :error, ErrorData
         end
       end
@@ -675,6 +786,8 @@ module PayPal::SDK
           object_of :noteForPayer, String
           # send a copy of cancellation notification to merchant 
           object_of :sendCopyToMerchant, Boolean
+          # send cancel notification to payer 
+          object_of :sendPayerNotification, Boolean
         end
       end
 
@@ -830,8 +943,12 @@ module PayPal::SDK
           object_of :viaPayPal, Boolean, :required => true
           # Other payment refund details.  
           object_of :paypalPayment, PayPalPaymentRefundDetailsType
+          # Other payment refund details.  
+          object_of :paypalPayments, PayPalPaymentRefundDetailsListType
           # details.  
           object_of :otherPayment, OtherPaymentRefundDetailsType
+          # details.  
+          object_of :otherPayments, OtherPaymentRefundDetailsListType
         end
       end
 
