@@ -1,7 +1,7 @@
 module PayPal
   module SDK
     module Invoice
-      VERSION = "1.106.0"
+      VERSION = "1.117.0"
     end
   end
 end

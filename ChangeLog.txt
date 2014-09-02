@@ -1,3 +1,10 @@
+Version 1.117.0 - September 02, 2014
+
+	- Updated stubs.
+	- Updated core SDK.
+	
+You can see source code of this release in github under https://github.com/paypal/invoice-sdk-ruby/tree/v1.117.0.
+--------------------------------------------------------------------------------------------------
 Version 1.106.0 - August 21, 2013
 
 	- Updated stubs for 106 release.
