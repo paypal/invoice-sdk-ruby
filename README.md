@@ -99,8 +99,6 @@ else
 end
 ```
 
-For more samples [paypal-sdk-samples.herokuapp.com/invoice/](https://paypal-sdk-samples.herokuapp.com/invoice/)
-
 ## Samples App
 
 Add following line in rails `Gemfile`:
