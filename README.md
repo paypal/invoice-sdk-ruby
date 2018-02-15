@@ -98,26 +98,3 @@ else
   @create_invoice_response.error
 end
 ```
-
-## Samples App
-
-Add following line in rails `Gemfile`:
-
-```ruby
-gem 'paypal-sdk-invoice'
-gem 'invoice_samples', :git => "https://github.com/paypal/invoice-sdk-ruby.git", :group => :development
-```
-
-Configure routes(`config/routes.rb`):
-
-```ruby
-mount InvoiceSamples::Engine => "/samples" if Rails.env.development?
-```
-
-To get default paypal configuration execute:
-
-```bash
-$ rails g paypal:sdk:install
-```
-
-Run `rails server` and check the samples.
